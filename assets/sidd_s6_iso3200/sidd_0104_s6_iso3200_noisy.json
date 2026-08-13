@@ -1,0 +1,102 @@
+{
+  "bit_depth": 10,
+  "black_level": [
+    32,
+    32,
+    32,
+    32
+  ],
+  "black_level_subtracted_normalization": "(code-black_level)/(white_level-black_level)",
+  "cfa_pattern": "GRBG",
+  "color": {
+    "as_shot_neutral": [
+      0.4970703125,
+      1.0,
+      0.5732421875
+    ],
+    "calibration_illuminant_1": 21,
+    "calibration_illuminant_2": 17,
+    "cct_kelvin": 4400.0,
+    "color_matrix_1": [
+      0.6640625,
+      -0.0458984375,
+      -0.1201171875,
+      -0.54296875,
+      1.4384765625,
+      0.0712890625,
+      -0.1767578125,
+      0.4052734375,
+      0.4755859375
+    ],
+    "color_matrix_2": [
+      1.23828125,
+      -0.4443359375,
+      -0.2783203125,
+      -0.4501953125,
+      1.4697265625,
+      0.0693359375,
+      -0.08984375,
+      0.2919921875,
+      0.61328125
+    ]
+  },
+  "dtype": "uint16",
+  "endianness": "little",
+  "file": "sidd_0104_s6_iso3200_noisy.raw",
+  "format": "headerless_unpacked_bayer",
+  "height": 3000,
+  "model_input_include_black_level": true,
+  "model_input_normalization": "code/white_level",
+  "release_note": "SIDD stores a black-level-subtracted normalized RAW signal. This asset maps it to a 10-bit sensor-code domain using code = round(signal * (1023 - 32) + 32).",
+  "render": {
+    "awb_gains": [
+      2.011787819253438,
+      1.0,
+      1.7444633730834753
+    ],
+    "camera_to_srgb": [
+      [
+        1.079505190039624,
+        -0.4014228344514407,
+        0.32191764441181675
+      ],
+      [
+        -0.15383887274770566,
+        1.3567296060833653,
+        -0.2028907333356597
+      ],
+      [
+        -0.0023915247254051026,
+        -0.5514802191695564,
+        1.5538717438949616
+      ]
+    ],
+    "transfer": "gamma_2.2"
+  },
+  "row_stride_bytes": 10656,
+  "source": {
+    "camera_make": "samsung",
+    "camera_model": "SM-G925I",
+    "dataset": "SIDD Medium Raw",
+    "exposure_time_seconds": 0.000625,
+    "f_number": 1.9,
+    "focal_length_mm": 4.3,
+    "frame_id": "010",
+    "iso": 3200,
+    "orientation": 1,
+    "scene_id": "0104_005_S6_03200_01600_4400_L",
+    "source_black_level": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "source_metadata_mat": "0104_METADATA_RAW_010.MAT",
+    "source_noisy_mat": "0104_NOISY_RAW_010.MAT",
+    "source_white_level": 1023,
+    "unique_camera_model": "SM-G925I-samsung-samsung"
+  },
+  "version": 1,
+  "white_level": 1023,
+  "width": 5328
+}

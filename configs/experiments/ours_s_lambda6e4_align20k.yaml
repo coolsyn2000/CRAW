@@ -1,0 +1,55 @@
+include:
+  - ../models/ours_s.yaml
+  - ../data/sidd_lsdir.yaml
+  - ../degradation/sidd_calibrated.yaml
+
+bitrate:
+  mode: learned_entropy
+  denominator: image_pixels
+
+loss:
+  domain: camera
+  reconstruction_loss: l1
+  lambda_distortion: 1.0
+  lambda_rate: 6.0e-4
+
+train:
+  seed: 10
+  device: cuda
+  lr: 5.0e-5
+  aux_lr: 5.0e-4
+  weight_decay: 0.0
+  betas: [0.9, 0.999]
+  max_steps: 20000
+  log_every: 100
+  val_every: 8000
+  save_every: 4000
+  max_grad_norm: 1.0
+  amp: true
+  amp_dtype: bfloat16
+  allow_tf32: false
+  float32_matmul_precision: highest
+  lr_schedule: warmup_cosine
+  lr_warmup_steps: 1000
+  lr_start_ratio: 0.1
+  lr_min_ratio: 0.1
+  checkpoint_dir: ${REPO_ROOT}/checkpoints/ours_s_lambda6e4_align20k
+  output_dir: ${REPO_ROOT}/outputs/ours_s_lambda6e4_align20k
+  initialization:
+    checkpoint: ${REPO_ROOT}/checkpoints/ours_m_lambda6e4_100k/previous.pth
+    mode: channel_slice
+  freeze_parameter_prefixes:
+    - g_s.
+    - h_a.
+    - h_s.
+    - entropy_bottleneck.
+
+distillation:
+  enabled: true
+  teacher_config: ${REPO_ROOT}/configs/experiments/ours_m_lambda6e4_100k.yaml
+  teacher_checkpoint: ${REPO_ROOT}/checkpoints/ours_m_lambda6e4_100k/previous.pth
+  latent_key: quantized_latent
+  latent_normalization: teacher_rms
+  latent_scale_floor: 0.1
+  latent_weight: 0.25
+  reconstruction_weight: 1.0

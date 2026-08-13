@@ -1,0 +1,40 @@
+# The released experiment uses normalized 14-bit sensor codes. SIDD RAW files
+# are black-level subtracted, so the canonical black level is reintroduced.
+input:
+  key: noisy_raw
+  use_noise_map: false
+  use_iso_condition: false
+
+target:
+  output_domain: linear_rgb
+  linear_rgb_color_space: camera
+  include_black_level: true
+
+unprocess:
+  enabled: true
+  transfer_function: srgb
+  target_linear_rgb: camera
+  sensor_profile_path: ${REPO_ROOT}/configs/degradation/sidd_train_unprocess_profiles.json
+  safe_invert_awb: false
+  exposure:
+    enabled: true
+    sampling: log_weighted_ranges
+    identity_probability: 0.0
+    ranges:
+      - [0.10, 0.30, 0.45]
+      - [0.30, 0.70, 0.45]
+      - [0.70, 1.20, 0.10]
+
+noise:
+  enabled: true
+  model: poisson_gaussian_iso_profile
+  profile_path: ${REPO_ROOT}/configs/degradation/sidd_sfrn_recalibrated_nlf.json
+  profile_models: [IP, S6, GP]
+  profile_model_weights: [49.0, 31.0, 30.0]
+  iso_sampling: discrete
+  shot_noise_distribution: poisson_gaussian
+  black_level: 512.0
+  white_level: 16383.0
+  noise_map:
+    channels: mean
+    domain: std

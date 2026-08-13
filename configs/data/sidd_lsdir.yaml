@@ -1,0 +1,75 @@
+data:
+  train:
+    mode: mixed
+    length: 100000
+    batch_size: 32
+    num_workers: 8
+    prefetch_factor: 2
+    batch_source_counts: [8, 24]
+    datasets:
+      - name: real_sidd
+        mode: sidd_lmdb
+        root: ${DATA_ROOT}/SIDD/nafnet_raw_to_linear_spatial_rggb
+        packed_crop_size: 128
+        length: 0
+        include_black_level: true
+        canonical_black_level: 512.0
+        canonical_white_level: 16383.0
+        demosaic_method: opencv_ea
+        augment: false
+      - name: synthetic_lsdir
+        mode: image
+        image_folder: ${DATA_ROOT}/LSDIR/HR/train
+        image_split: train
+        validation_fraction: 0.01
+        image_split_seed: 20260724
+        length: 0
+        patch_size: 128
+        image_patch_size: 256
+        augment: true
+        simulate_noise: true
+        linear_target_from_clean_raw: false
+  val:
+    mode: sidd_lmdb
+    root: ${DATA_ROOT}/SIDD/nafnet_raw_to_linear_spatial_rggb
+    packed_crop_size: 128
+    length: 0
+    include_black_level: true
+    canonical_black_level: 512.0
+    canonical_white_level: 16383.0
+    demosaic_method: opencv_ea
+    augment: false
+    batch_size: 1
+    num_workers: 4
+    prefetch_factor: 2
+  validation_sets:
+    sidd_real:
+      mode: sidd_lmdb
+      root: ${DATA_ROOT}/SIDD/nafnet_raw_to_linear_spatial_rggb
+      packed_crop_size: 128
+      length: 0
+      include_black_level: true
+      canonical_black_level: 512.0
+      canonical_white_level: 16383.0
+      demosaic_method: opencv_ea
+      augment: false
+      batch_size: 1
+      num_workers: 4
+      prefetch_factor: 2
+    lsdir_high_texture:
+      mode: image
+      image_folder: ${DATA_ROOT}/LSDIR/HR/train
+      image_split: val
+      validation_fraction: 0.01
+      image_split_seed: 20260724
+      length: 1024
+      patch_size: 128
+      image_patch_size: 256
+      augment: false
+      deterministic: true
+      base_seed: 20260727
+      simulate_noise: true
+      linear_target_from_clean_raw: false
+      batch_size: 1
+      num_workers: 4
+      prefetch_factor: 2
